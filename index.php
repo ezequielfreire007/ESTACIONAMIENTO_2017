@@ -3,10 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Login</title>
-        <link rel="stylesheet" href="./css/login.css">
+        <script type="text/javascript" src="./js/jquery.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script type="text/javascript" src="./js/funciones.js"></script>
         <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+        <link rel="stylesheet" href="./css/login.css">
     </head>
-
 
     <body>
         <header>
@@ -16,7 +19,7 @@
         <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
         <section>
             <div id="id01" class="modal">
-                <form class="modal-content animate" action="/action_page.php">
+                <div class="modal-content animate">
                     <div class="imgcontainer">
                         <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span><br>
                     <!--  <img src="img_avatar2.png" alt="Avatar" class="avatar"> -->
@@ -24,12 +27,12 @@
 
                     <div class="container">
                         <!--<label><b>Nombre</b></label>-->
-                        <input type="text" placeholder="Ingrese su nombre" name="txtNombre" required>
+                        <input type="text" placeholder="Ingrese su nombre" id="txtNombre" name="txtNombre" required>
 
                         <!--<label><b>Password</b></label>-->
-                        <input type="password" placeholder="Ingrese su Password" name="txtPassword" required>
+                        <input type="password" placeholder="Ingrese su Password" id="txtPassword" name="txtPassword" required>
 
-                        <button type="submit">Login</button>
+                        <button onclick="login()">Login</button>
                     <!--  <input type="checkbox" checked="checked"> Remember me -->
                     </div>
 
@@ -37,7 +40,7 @@
                     <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancelar</button>
                     <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
                     </div>
-                </form>
+                </div>
             </div>
 
             <script>
