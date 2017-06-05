@@ -8,7 +8,7 @@ class Usuario
     private $_nombre;
     private $_legajo;
     private $_tipo;
-    private $_password
+    private $_password;
 
     #Getter y Setter
     public function getNombre(){
@@ -44,29 +44,35 @@ class Usuario
     }
 
     #Constructor
-    public function __construct($nombre=NULL,$email=NULL, $tipo=NULL, $password=NULL){
-        if($nombre !== NULL && $email !== NULL && $tipo !== NULL && $password !== NULL){
+    public function __construct($nombre=NULL,$legajo=NULL, $tipo=NULL, $password=NULL){
+        if($nombre !== NULL && $legajo !== NULL && $tipo !== NULL && $password !== NULL){
             $this->_nombre = $nombre;
-            $this->_email = $email;
+            $this->_legajo = $legajo;
             $this->_tipo = $tipo;
             $this->_password = $password;
         }else{
             $this->_nombre = $nombre;
-            $this->_email = $email;
+            $this->_legajo = $legajo;
             $this->_tipo = $tipo;
         }
     }
 
-
     //Metodos de Clase
-    public static function unUsuario($legajo){
+    public static function TraerUsuario($legajo){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
 		$consulta = $objetoAccesoDato->RetornarConsulta("SELECT nombre, legajo, tipo, password FROM login WHERE legajo=:legajo");
-		$consulta->bindValue(':legajo',$codBarra,PDO::PARAM_INT);
+		$consulta->bindValue(':legajo',$legajo,PDO::PARAM_INT);
 		$consulta->execute();
 
 		return $consulta->fetchAll(PDO::FETCH_CLASS('Usuario'));
 	}
 }
 
+/// test ///
+$unUsuario = new Usuario("mario",3,"administrador","123");
+$dosUsuario = new Usuario("marito",4,"usuario");
+//var_dump($unUsuario);
+var_dump($dosUsuario);
+echo"<br>";
+//var_dump(Usuario::TraerUsuario(1));
 ?>
