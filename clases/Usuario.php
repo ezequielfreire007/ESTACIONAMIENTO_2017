@@ -1,10 +1,12 @@
 <?php
 
+require_once "AccesoDatos.php";
+
 class Usuario
 {
     #Atributos
     private $_nombre;
-    private $email;
+    private $_legajo;
     private $_tipo;
     private $_password
 
@@ -13,8 +15,8 @@ class Usuario
         return $this->_nombre;
     }
 
-    public function getEmail(){
-        return $this->email;
+    public function getLegajo(){
+        return $this->_legajo;
     }
 
     public function getTipo(){
@@ -29,8 +31,8 @@ class Usuario
         $this->_nombre = $value;
     }
 
-    public function setEmail($value){
-        $this->_email = $value;
+    public function setLegajo($value){
+        $this->_Legajo = $value;
     }
 
     public function setTipo($value){
@@ -54,6 +56,17 @@ class Usuario
             $this->_tipo = $tipo;
         }
     }
+
+
+    //Metodos de Clase
+    public static function unUsuario($legajo){
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("SELECT nombre, legajo, tipo, password FROM login WHERE legajo=:legajo");
+		$consulta->bindValue(':legajo',$codBarra,PDO::PARAM_INT);
+		$consulta->execute();
+
+		return $consulta->fetchAll(PDO::FETCH_CLASS('Usuario'));
+	}
 }
 
 ?>
