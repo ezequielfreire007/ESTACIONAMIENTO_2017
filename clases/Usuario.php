@@ -5,38 +5,38 @@ require_once "AccesoDatos.php";
 class Usuario
 {
     #Atributos
-    private $_nombre;
-    private $_legajo;
-    private $_tipo;
-    private $_password;
+    private $nombre;
+    private $legajo;
+    private $tipo;
+    private $password;
 
     #Getter y Setter
     public function getNombre(){
-        return $this->_nombre;
+        return $this->nombre;
     }
 
     public function getLegajo(){
-        return $this->_legajo;
+        return $this->legajo;
     }
 
     public function getTipo(){
-        return $this->_tipo;
+        return $this->tipo;
     }
 
     public function getPassword(){
-        return $this->_password;
+        return $this->password;
     }
 
     public function setNombre($value){
-        $this->_nombre = $value;
+        $this->nombre = $value;
     }
 
     public function setLegajo($value){
-        $this->_Legajo = $value;
+        $this->Legajo = $value;
     }
 
     public function setTipo($value){
-        $this->_tipo = $value;
+        $this->tipo = $value;
     }
 
     public function setPassword($value){
@@ -46,14 +46,10 @@ class Usuario
     #Constructor
     public function __construct($nombre=NULL,$legajo=NULL, $tipo=NULL, $password=NULL){
         if($nombre !== NULL && $legajo !== NULL && $tipo !== NULL && $password !== NULL){
-            $this->_nombre = $nombre;
-            $this->_legajo = $legajo;
-            $this->_tipo = $tipo;
-            $this->_password = $password;
-        }else{
-            $this->_nombre = $nombre;
-            $this->_legajo = $legajo;
-            $this->_tipo = $tipo;
+            $this->nombre = $nombre;
+            $this->legajo = $legajo;
+            $this->tipo = $tipo;
+            $this->password = $password;
         }
     }
 
@@ -64,7 +60,8 @@ class Usuario
 		$consulta->bindValue(':legajo',$legajo,PDO::PARAM_INT);
 		$consulta->execute();
 
-		return $consulta->fetchAll(PDO::FETCH_CLASS('Usuario'));
+		//return $consulta->fetchAll();
+        return $consulta->fetchAll(PDO::FETCH_CLASS,'Usuario');
 	}
 }
 
@@ -72,7 +69,7 @@ class Usuario
 $unUsuario = new Usuario("mario",3,"administrador","123");
 $dosUsuario = new Usuario("marito",4,"usuario");
 //var_dump($unUsuario);
-var_dump($dosUsuario);
+//var_dump($dosUsuario);
 echo"<br>";
-//var_dump(Usuario::TraerUsuario(1));
+var_dump(Usuario::TraerUsuario(1));
 ?>
