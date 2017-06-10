@@ -53,7 +53,7 @@ class Usuario
         }
     }
 
-    //Metodos de Clase
+    #Metodos de Clase
     public static function TraerUsuario($legajo){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
 		$consulta = $objetoAccesoDato->RetornarConsulta("SELECT nombre, legajo, tipo, password FROM login WHERE legajo=:legajo");
@@ -66,10 +66,10 @@ class Usuario
 }
 
 /// test ///
-$unUsuario = new Usuario("mario",3,"administrador","123");
-$dosUsuario = new Usuario("marito",4,"usuario");
+//$unUsuario = new Usuario("mario",3,"administrador","123");
+//$dosUsuario = new Usuario("marito",4,"usuario");
 //var_dump($unUsuario);
 //var_dump($dosUsuario);
-echo"<br>";
-var_dump(Usuario::TraerUsuario(1));
+//echo"<br>";
+//var_dump(Usuario::TraerUsuario(1));
 ?>

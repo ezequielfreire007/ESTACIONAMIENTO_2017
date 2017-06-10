@@ -1,6 +1,6 @@
 function login() {
     var formData = new FormData();
-    formData.append("txtNombre",$("#txtNombre").val());
+    formData.append("txtLegajo",$("#txtNLegajo").val());
     formData.append("txtPassword",$("#txtPassword").val());
     formData.append("queHago","1");
 

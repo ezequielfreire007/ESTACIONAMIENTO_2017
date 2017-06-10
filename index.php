@@ -26,13 +26,13 @@
                     </div>
 
                     <div class="container">
-                        <!--<label><b>Nombre</b></label>-->
-                        <input type="text" placeholder="Ingrese su nombre" id="txtNombre" name="txtNombre" required>
+                        <form action="index.php" method="post">
+                            <input type="text" placeholder="Ingrese su legajo" id="txtLegajo" name="txtLegajo" required>
 
-                        <!--<label><b>Password</b></label>-->
-                        <input type="password" placeholder="Ingrese su Password" id="txtPassword" name="txtPassword" required>
+                            <input type="password" placeholder="Ingrese su Password" id="txtPassword" name="txtPassword" required>
 
-                        <button onclick="login()">Login</button>
+                            <button type="submit">Login</button>
+                        </form>
                     <!--  <input type="checkbox" checked="checked"> Remember me -->
                     </div>
 
@@ -56,9 +56,62 @@
             </script>
         </section>
         
+        	<?php
+	if(isset($_POST['txtLegajo']) && isset($_POST['txtPassword'])){
+///***********************************************************************************************///
+///COMO CLIENTE DEL SERVICIO WEB///
+///***********************************************************************************************///
+		
+//1.- INCLUIMOS LA LIBRERIA NUSOAP DENTRO DE NUESTRO ARCHIVO
+		require_once('./lib/nusoap.php');
+		
+//2.- INDICAMOS URL DEL WEB SERVICE
+		$host = 'http://localhost/ESTACIONAMIENTO_2017/ws/loginWS.php';
+		
+//3.- CREAMOS LA INSTANCIA COMO CLIENTE
+		$client = new nusoap_client($host . '?wsdl');
 
-        <!--<footer class="container-fluid text-center">
-            <p>Copyright © 2017 - UTN</p>
-        </footer>-->
+//3.- CHECKEAMOS POSIBLES ERRORES AL INSTANCIAR
+		$err = $client->getError();
+		if ($err) {
+			echo '<h2>ERROR EN LA CONSTRUCCION DEL WS:</h2><pre>' . $err . '</pre>';
+			die();
+		}
+
+//4.- INVOCAMOS AL METODO SOAP, PASANDOLE EL PARAMETRO DE ENTRADA
+		$result = $client->call('Login', array($_POST["txtLegajo"],$_POST["txtPassword"]));
+		
+//5.- CHECKEAMOS POSIBLES ERRORES AL INVOCAR AL METODO DEL WS 
+		/*if($result == "ok"){
+            header('Location: home.php');
+            echo "ingreso a result";
+        }
+        else{
+            echo '<h2>ERROR EN WEBSERVICE</h2><pre>';
+        }*/
+
+        if ($client->fault) {
+			echo '<h2>ERROR AL INVOCAR METODO:</h2><pre>';
+			print_r($result);
+			print_r($result2);
+			print_r($result3);
+			echo '</pre>';
+		} 
+		else {// CHECKEAMOS POR POSIBLES ERRORES
+			$err = $client->getError();
+			if ($err) {//MOSTRAMOS EL ERROR
+				echo '<h2>ERROR EN EL CLIENTE:</h2><pre>' . $err . '</pre>';
+			} 
+			else {//MOSTRAMOS EL RESULTADO DEL METODO DEL WS.
+				echo '<h2>Resultado Suma</h2>';
+				echo '<pre>' . $result . '</pre>';
+				echo '<h2>Resultado Multiplicacion</h2>';
+				echo '<pre>' . $result2 . '</pre>';
+				echo '<h2>Resultado Multiplicacion</h2>';
+				echo '<pre>' . $result3 . '</pre>';
+			}
+		}
+	}
+	?>
     </body>
 </html>
