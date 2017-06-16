@@ -5,10 +5,10 @@ require_once "AccesoDatos.php";
 class Usuario
 {
     #Atributos
-    private $nombre;
-    private $legajo;
-    private $tipo;
-    private $password;
+    public $nombre;
+    public $legajo;
+    public $tipo;
+    public $password;
 
     #Getter y Setter
     public function getNombre(){
@@ -54,14 +54,15 @@ class Usuario
     }
 
     #Metodos de Clase
-    public static function TraerUsuario($legajo){
+    public static function TraerUsuarioLog($nombre,$password){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-		$consulta = $objetoAccesoDato->RetornarConsulta("SELECT nombre, legajo, tipo, password FROM login WHERE legajo=:legajo");
-		$consulta->bindValue(':legajo',$legajo,PDO::PARAM_INT);
+		$consulta = $objetoAccesoDato->RetornarConsulta("SELECT nombre, legajo, tipo, password FROM login WHERE nombre=:nombre and password=:password");
+		$consulta->bindValue(':nombre',$nombre,PDO::PARAM_STR);//STR para cadenas
+        $consulta->bindValue(':password',$password,PDO::PARAM_STR);
 		$consulta->execute();
 
-		//return $consulta->fetchAll();
-        return $consulta->fetchAll(PDO::FETCH_CLASS,'Usuario');
+		return $consulta->fetchAll();
+        //return $consulta->fetchAll(PDO::FETCH_CLASS,'Usuario');
 	}
 }
 
@@ -71,5 +72,9 @@ class Usuario
 //var_dump($unUsuario);
 //var_dump($dosUsuario);
 //echo"<br>";
-//var_dump(Usuario::TraerUsuario(1));
+//var_dump(Usuario::TraerUsuario("pepe","123"));
+//$usuario = Usuario::TraerUsuarioLog("pepe","123");
+//print_r($usuario);
+//var_dump($usuario);
+//echo $usuario[0]["nombre"];
 ?>

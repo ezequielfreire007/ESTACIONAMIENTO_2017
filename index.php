@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,7 +30,7 @@
 
                     <div class="container">
                         <form action="index.php" method="post">
-                            <input type="text" placeholder="Ingrese su legajo" id="txtLegajo" name="txtLegajo" required>
+                            <input type="text" placeholder="Ingrese su Nombre" id="txtNombre" name="txtNombre" required>
 
                             <input type="password" placeholder="Ingrese su Password" id="txtPassword" name="txtPassword" required>
 
@@ -56,12 +59,13 @@
             </script>
         </section>
         
-        	<?php
-	if(isset($_POST['txtLegajo']) && isset($_POST['txtPassword'])){
+<?php
+	if(isset($_POST['txtNombre']) && isset($_POST['txtPassword'])){
 ///***********************************************************************************************///
 ///COMO CLIENTE DEL SERVICIO WEB///
 ///***********************************************************************************************///
-		
+		$nombre = $_POST['txtNombre'];
+        $password = $_POST['txtPassword'];
 //1.- INCLUIMOS LA LIBRERIA NUSOAP DENTRO DE NUESTRO ARCHIVO
 		require_once('./lib/nusoap.php');
 		
@@ -69,8 +73,8 @@
 		$host = 'http://localhost/ESTACIONAMIENTO_2017/ws/loginWS.php';
 		
 //3.- CREAMOS LA INSTANCIA COMO CLIENTE
-		$client = new nusoap_client($host . '?wsdl');
-
+		$client = new nusoap_client($host.'?wsdl','wsdl');
+       
 //3.- CHECKEAMOS POSIBLES ERRORES AL INSTANCIAR
 		$err = $client->getError();
 		if ($err) {
@@ -78,23 +82,17 @@
 			die();
 		}
 
+
 //4.- INVOCAMOS AL METODO SOAP, PASANDOLE EL PARAMETRO DE ENTRADA
-		$result = $client->call('Login', array($_POST["txtLegajo"],$_POST["txtPassword"]));
-		
+        
+		$usuario = $client->call('Login', array($nombre,$password));
+        var_dump($usuario);   
 //5.- CHECKEAMOS POSIBLES ERRORES AL INVOCAR AL METODO DEL WS 
-		/*if($result == "ok"){
-            header('Location: home.php');
-            echo "ingreso a result";
-        }
-        else{
-            echo '<h2>ERROR EN WEBSERVICE</h2><pre>';
-        }*/
 
         if ($client->fault) {
 			echo '<h2>ERROR AL INVOCAR METODO:</h2><pre>';
-			print_r($result);
-			print_r($result2);
-			print_r($result3);
+			print_r($usuario);
+	
 			echo '</pre>';
 		} 
 		else {// CHECKEAMOS POR POSIBLES ERRORES
@@ -104,14 +102,18 @@
 			} 
 			else {//MOSTRAMOS EL RESULTADO DEL METODO DEL WS.
 				echo '<h2>Resultado Suma</h2>';
-				echo '<pre>' . $result . '</pre>';
-				echo '<h2>Resultado Multiplicacion</h2>';
-				echo '<pre>' . $result2 . '</pre>';
-				echo '<h2>Resultado Multiplicacion</h2>';
-				echo '<pre>' . $result3 . '</pre>';
+				echo '<pre>' . print_r($usuario) . '</pre>';
+                if($usuario["nombre"]==$nombre && $usuario["password"]==$password){
+                    echo "ingreso a la session";
+                    $_SESSION["usuario"]->nombre = $usuario["nombre"];
+                    $_SESSION["usuario"]->legajo = $usuario["legajo"];
+                    $_SESSION["usuario"]->tipo = $usuario["tipo"];
+                    $_SESSION["usuario"]->password = $usuario["password"];
+                    header('Location: home.php');
+                }
 			}
 		}
 	}
-	?>
+?>
     </body>
 </html>
