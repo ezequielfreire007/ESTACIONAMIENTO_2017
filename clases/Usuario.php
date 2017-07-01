@@ -5,10 +5,10 @@ require_once "AccesoDatos.php";
 class Usuario
 {
     #Atributos
-    public $nombre;
-    public $legajo;
-    public $tipo;
-    public $password;
+    private $nombre;
+    private $legajo;
+    private $tipo;
+    private $password;
 
     #Getter y Setter
     public function getNombre(){

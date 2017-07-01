@@ -2,7 +2,7 @@
     session_start();
 
     $queHago = isset($_POST["queHago"]) ? $_POST["queHago"]:NULL;
-    $res = "no ok";
+    $res = "bad";
 
     switch ($queHago) {
         case "1":
