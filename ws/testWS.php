@@ -43,7 +43,7 @@ $server->register('login',
 			'encoded', // use
 			'Check user login');  //description
 
-bool(false)
+
 //first function implementation
 function hello($username) {
         return 'Howdy, '.$username.'!';
