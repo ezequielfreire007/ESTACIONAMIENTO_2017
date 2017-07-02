@@ -102,13 +102,15 @@ session_start();
 			} 
 			else {//MOSTRAMOS EL RESULTADO DEL METODO DEL WS.
 				echo '<h2>Resultado Suma</h2>';
-				echo '<pre>' . print_r($usuario) . '</pre>';
+				//echo '<pre>' . print_r($usuario) . '</pre>';
                 if($usuario["nombre"]==$nombre && $usuario["password"]==$password){
                     echo "ingreso a la session";
                     $_SESSION["usuario"]->nombre = $usuario["nombre"];
                     $_SESSION["usuario"]->legajo = $usuario["legajo"];
                     $_SESSION["usuario"]->tipo = $usuario["tipo"];
                     $_SESSION["usuario"]->password = $usuario["password"];
+                    $_SESSION["turno"]->password = $usuario["turno"];
+                    $_SESSION["estado"]->password = $usuario["estado"];
                     header('Location: home.php');
                 }
 			}

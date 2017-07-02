@@ -1,6 +1,6 @@
 <?php
     require_once "./verificar.php";
-    var_dump($_SESSION["usuario"]);   
+    //var_dump($_SESSION["usuario"]);   
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,6 +18,7 @@
     </head>
 
     <body>
+        <!-- MENU PRINCIPAL DEL PANEL -->
        	<nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -38,19 +39,35 @@
             </div>
         </nav>
 
+        <!-- MENU DE NAVEGACION -->
+        <!-- USUARIO ADMINISTRADOR -->
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                <a class="navbar-brand" href="#">WebSiteName</a>
+                <a class="navbar-brand" href="#">Operaciones</a>
                 </div>
                 <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Page 1</a></li>
-                <li><a href="#">Page 2</a></li>
-                <li><a href="#">Page 3</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
                 </ul>
+                <?php
+                    if($_SESSION['usuario']->tipo == 0){
+                        echo "<button class='btn btn-danger navbar-btn'>Dias y Horarios</button>";
+                        echo "<button class='btn btn-danger navbar-btn'>Cantidad de operaciones</button>";
+                        echo "<button class='btn btn-danger navbar-btn'>Alta Usuario</button>";
+                        echo "<button class='btn btn-danger navbar-btn'>Mostrar Usuarios</button>";
+                    }else{
+                        echo "<button class='btn btn-danger navbar-btn'>Alta Auto</button>";
+                        echo "<button class='btn btn-danger navbar-btn'>Retirar Auto</button>";
+                        echo "<button class='btn btn-danger navbar-btn'>Alta Usuario</button>";
+                        echo "<button class='btn btn-danger navbar-btn'>Mostrar Usuarios</button>";
+                    }
+                    
+                ?>
             </div>
         </nav>
+
 
         <div class='container'> 
 				<div class='row'>
@@ -59,25 +76,22 @@
                         <?php 
                         
                             if(isset($_SESSION['usuario']) != true) 
-                            {
-                                        
+                            { 
                                 echo "  <h4>Ingresar al sistema</h4>";
                                 echo "	<ul class='nav nav-pills nav-stacked' role='tablist'>";
                                 echo " <a class='btn btn-custom btn-lg btn-block' id='btnLogin' href='login.php' role='button'>Log in</a>";
                                 echo "	 <br>       ";
                                 echo "  <a class='btn btn-custom btn-lg btn-block' id='btnLogin' href='registro.html' role='button'>Crear Cuenta</a> ";
-                                echo "	</ul>";
-                                    
+                                echo "	</ul>";      
                             }
                         ?>	
                         </div>
 		                <div class='col-sm-3'></div>
 				    </div>
                 </div>
-
         </div>
 
-
+        
 
         <button onclick="logout()">Salir</button>
         <input type="color" name="color" id="color">

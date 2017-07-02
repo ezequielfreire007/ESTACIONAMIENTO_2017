@@ -21,9 +21,11 @@
 		'',
 		array(
 			'nombre' => array('name' => 'nombre', 'type' => 'xsd:string'),
-			'legajo' => array('name' => 'legajo', 'type' => 'xsd:string'),
-			'tipo' => array('name' => 'tipo', 'type' => 'xsd:string'),
-			'password' => array('name' => 'password', 'type' => 'xsd:string')
+			'legajo' => array('name' => 'legajo', 'type' => 'xsd:int'),
+			'tipo' => array('name' => 'tipo', 'type' => 'xsd:int'),
+			'password' => array('name' => 'password', 'type' => 'xsd:string'),
+			'turno' => array('name' => 'turno', 'type' => 'xsd:int'),
+			'estado' => array('name' => 'estado', 'type' => 'xsd:int')
 		)
 	);
 
@@ -42,14 +44,7 @@
 		$returUs = array();
 		$usuario = Usuario::TraerUsuarioLog($nombre,$password);
 		$returUs=$usuario[0];
-		//var_dump($returUs);
 		return $returUs;
-		//return $returUs;*/
-		//return $usuario;
-		/*return array("nombre"=>"pepe",
-					 "legajo"=>"1",
-					 "tipo"=>"0",
-					 "password"=>"123");*/
 	}
 
 
