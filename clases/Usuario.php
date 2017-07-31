@@ -86,6 +86,26 @@ class Usuario
         //return $consulta->fetchAll(PDO::FETCH_CLASS,'Usuario');
 	}
 
+    //TRAER UN USUARIO 
+    public static function TraerUsuario($legajo){
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("SELECT nombre, legajo, tipo, turno, estado FROM usuarios WHERE legajo=:legajo");
+		$consulta->bindValue(':legajo',$legajo,PDO::PARAM_INT);//STR para cadenas
+		$consulta->execute();
+
+		//return $consulta->fetchAll();
+        return $consulta->fetchAll(PDO::FETCH_CLASS,'Usuario');
+	}
+
+    //TRAER USUARIOS 
+    public static function TraerUsuarios(){
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("SELECT nombre, legajo, tipo, turno, estado FROM usuarios");
+		$consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS,'Usuario');
+	}
+
     ///// INGRESAR USUARIO /////
     public static function insertarUsuario($nombre,$legajo,$tipo,$password,$turno,$estado)
 	{

@@ -1,18 +1,20 @@
 <?php
 
 require_once "AccesoDatos.php";
+date_default_timezone_set("America/Argentina/Buenos_Aires");
 
 class Auto
 {
     ### Atributos
-    private $_id;
-    private $_marca;
+    private $_idLugar;
     private $_patente;
+    private $_marca;
     private $_color;
+    private $_horaIngreso;
 
     ### Getter y Setter
-    public function getId(){
-        return $this->_id;
+    public function getIdLugar(){
+        return $this->_idLugar;
     }
 
     public function getMarca(){
@@ -27,8 +29,12 @@ class Auto
         return $this->_color;
     }
 
-    public function setId($value){
-        $this->_id = $value;
+    public function getHoraIngreso(){
+        return $this->_horaIngreso;
+    }
+
+    public function setIdLugar($value){
+        $this->_idLugar = $value;
     }
 
     public function setMarca($value){
@@ -43,26 +49,32 @@ class Auto
         $this->_color = $value;
     }
 
-    public function __construct($id = NULL,$marca = NULL, $patente = NULL,$color = NULL){
-        if($id != NULL && $marca != NULL && $patente != NULL && $color != NULL){
-            $this->_id = $id;
+    public function setHoraIngreso($value){
+        $this->_horaIngreso = $value;
+    }
+
+    public function __construct($idLugar = NULL,$marca = NULL, $patente = NULL,$color = NULL, $hora=NULL){
+        if($idLugar != NULL && $marca != NULL && $patente != NULL && $color != NULL && $hora!=NULL){
+            $this->_idLugar = $idLugar;
             $this->_marca = $marca;
             $this->_patente = $patente;
             $this->_color = $color;
+            $this->_horaIngreso = $hora;
         }
     }
 
     ###Metodos de clase
     ///// INSERTAR AUTO //////
-    public static function insertarAuto($marca,$patente,$color)
+    public static function insertarAuto($lugar,$patente,$marca,$color,$hora)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
         try{
-            $consulta = $objetoAccesoDato->RetornarConsulta("INSERT INTO auto(marca, patente, color)VALUES(:marca,:patente,:color)");
-            $consulta->bindValue(':marca', $marca, PDO::PARAM_STR);
+            $consulta = $objetoAccesoDato->RetornarConsulta("INSERT INTO autos(lugar, patente, marca, color, hora)VALUES(:lugar,:patente,:marca,:color,:hora)");
+            $consulta->bindValue(':lugar', $lugar, PDO::PARAM_INT);
             $consulta->bindValue(':patente', $patente, PDO::PARAM_STR);
+            $consulta->bindValue(':marca', $marca, PDO::PARAM_STR);
             $consulta->bindValue(':color', $color, PDO::PARAM_STR);
-
+            $consulta->bindValue(':hora',$hora,PDO::PARAM_STR);
             $consulta->execute(); 
         }catch(Ecxeption $e){
             return false;
@@ -76,7 +88,7 @@ class Auto
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
 		try
 		{
-			$consulta = $objetoAccesoDato->RetornarConsulta("DELETE FROM auto WHERE patente=:patente");
+			$consulta = $objetoAccesoDato->RetornarConsulta("DELETE FROM autos WHERE patente=:patente");
 			$consulta->bindValue(':patente', $patente, PDO::PARAM_STR);
 			$consulta->execute();
 		}
@@ -91,7 +103,7 @@ class Auto
     public static function modificarAuto($auto){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
 		try{
-			$consulta = $objetoAccesoDato->RetornarConsulta("UPDATE auto SET marca=:marca ,color=:color WHERE patente=:patente");
+			$consulta = $objetoAccesoDato->RetornarConsulta("UPDATE autos SET marca=:marca ,color=:color WHERE patente=:patente");
 			//$consulta->bindValue(':id', $auto->getId(), PDO::PARAM_INT);
             $consulta->bindValue(':marca',$auto->getMarca(),PDO::PARAM_STR);
 			$consulta->bindValue(':patente',$auto->getPatente(),PDO::PARAM_STR);
@@ -107,7 +119,7 @@ class Auto
     public static function TraerTodosAutos()
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("select id,marca,patente,color from auto");
+		$consulta =$objetoAccesoDato->RetornarConsulta("select lugar,marca,patente,color from autos");
 		$consulta->execute();			
 		return $consulta->fetchAll(PDO::FETCH_CLASS, "Auto");		
 	}
@@ -116,7 +128,7 @@ class Auto
     public static function TraerUnAuto($patente)
 	{
 	    $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("select id,marca,patente,color from auto where patente=:patente");
+		$consulta =$objetoAccesoDato->RetornarConsulta("select lugar,marca,patente,color from autos where patente=:patente");
 		$consulta->bindValue(':patente',$patente,PDO::PARAM_STR);
         $consulta->execute();	
         $autoBuscado= $consulta->fetchObject('Auto');		
@@ -129,6 +141,10 @@ class Auto
 $auto->setMarca("LOTUS");
 $auto->setPatente("HTS 987");
 $auto->setColor("VERDE");
-Auto::modificarAuto($auto);
-*/
+$auto->setIdLugar(4);
+$auto->setHoraIngreso(time());*/
+/*date_default_timezone_set("America/Argentina/Buenos_Aires");
+$hora = date("Y-m-d H:i:s");
+Auto::insertarAuto(4,"HTS 987","LOTUS","VERDE",$hora);*/
+
 ?>

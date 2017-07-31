@@ -40,7 +40,7 @@
         </nav>
 
         <!-- MENU DE NAVEGACION -->
-        <!-- USUARIO ADMINISTRADOR -->
+        <!-- USUARIO ADMINISTRADOR y EMPLEADO -->
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -48,64 +48,217 @@
                 </div>
                 <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Link</a></li>
-                <li><a href="#">Link</a></li>
+                <li><a href="#">Pisos</a></li>
                 </ul>
                 <?php
                     if($_SESSION['usuario']->tipo == 0){
-                        echo "<button class='btn btn-danger navbar-btn'>Dias y Horarios</button>";
-                        echo "<button class='btn btn-danger navbar-btn'>Cantidad de operaciones</button>";
-                        echo "<button class='btn btn-danger navbar-btn'>Alta Usuario</button>";
-                        echo "<button class='btn btn-danger navbar-btn'>Mostrar Usuarios</button>";
+                        echo "<button type='button' class='btn btn-info' data-toggle='collapse' data-target='#adm'>Operaciones de administrador</button>";
+                        echo "<button type='button' class='btn btn-info' data-toggle='collapse' data-target='#emp'>Operaciones de playa</button>";
+                        echo "<div class='btn-group'>";
+                            echo "<div id='adm' class='collapse'>";
+                                echo "<button class='btn btn-primary navbar-btn'>Dias y Horarios</button>";
+                                echo "<button class='btn btn-primary navbar-btn'>Cantidad de operaciones</button>";
+                                echo "<button class='btn btn-primary navbar-btn' data-toggle='collapse' data-target='#altus'>Alta Usuario</button>";
+                                echo "<button type='button' class='btn btn-primary navbar-btn' data-toggle='collapse' data-target='#tabus' onclick='traerUsuarios()'>Mostrar Usuarios</button>";//
+                            echo "</div>";
+                            echo "<div id='emp' class='collapse'>";
+                                echo "<button class='btn btn-success navbar-btn' data-toggle='collapse' data-target='#altau'onclick='traerPisos()'>Alta Auto</button>";
+                                echo "<button class='btn btn-success navbar-btn'>Retirar Auto</button>";
+                                echo "<button class='btn btn-success navbar-btn' data-toggle='collapse' data-target='#tabEst'onclick='traerEstacionamiento()'>Estacionamiento</button>";
+                                echo "<button type='button' class='btn btn-success' data-toggle='collapse' data-target='#tabAut'onclick='traerAutos()'>Traer Autos</button>";
+                            echo "</div>";
+
+                        echo "</div>";
                     }else{
-                        echo "<button class='btn btn-danger navbar-btn'>Alta Auto</button>";
-                        echo "<button class='btn btn-danger navbar-btn'>Retirar Auto</button>";
-                        echo "<button class='btn btn-danger navbar-btn'>Alta Usuario</button>";
-                        echo "<button class='btn btn-danger navbar-btn'>Mostrar Usuarios</button>";
+                        echo "<button type='button' class='btn btn-info' data-toggle='collapse' data-target='#emp'>Operaciones de playa</button>";
+                        echo "<div class='btn-group'>";
+                            echo "<div id='emp' class='collapse'>";
+                                echo "<button class='btn btn-success navbar-btn' data-toggle='collapse' data-target='#altau' onclick='traerPisos()'>Alta Auto</button>";
+                                echo "<button class='btn btn-success navbar-btn'>Retirar Auto</button>";
+                                echo "<button class='btn btn-success navbar-btn' data-toggle='collapse' data-target='#tabEst'onclick='traerEstacionamiento()'>Estacionamiento</button>";
+                                echo "<button type='button' class='btn btn-success' data-toggle='collapse' data-target='#tabAut'onclick='traerAutos()'>Traer Autos</button>";
+                            echo "</div>";
+                        echo "</div>";
                     }
                     
                 ?>
             </div>
         </nav>
 
-
-        <div class='container'> 
-				<div class='row'>
-					<div class='col-sm-3'></div>
-				        <div class='col-sm-5'>
-                        <?php 
-                        
-                            if(isset($_SESSION['usuario']) != true) 
-                            { 
-                                echo "  <h4>Ingresar al sistema</h4>";
-                                echo "	<ul class='nav nav-pills nav-stacked' role='tablist'>";
-                                echo " <a class='btn btn-custom btn-lg btn-block' id='btnLogin' href='login.php' role='button'>Log in</a>";
-                                echo "	 <br>       ";
-                                echo "  <a class='btn btn-custom btn-lg btn-block' id='btnLogin' href='registro.html' role='button'>Crear Cuenta</a> ";
-                                echo "	</ul>";      
-                            }
-                        ?>	
-                        </div>
-		                <div class='col-sm-3'></div>
-				    </div>
-                </div>
-        </div>
-
-        
-
-        <button onclick="logout()">Salir</button>
-        <input type="color" name="color" id="color">
-        <button onclick="color()">Aceptar</button>
-
-        <footer id="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p>Estacionamiento 2017</p> 
-                            <p>Powered by <strong><a href="" target="_blank">Ezequiel A. Freire</a></strong></p> 
+        <!-- FORMULARIOS DE USUARIO -->
+        <div class="container">
+        <!-- ALTA USUARIO -->
+            <div id="altus" class="collapse"> 
+                <h1>Alta de usuario</h1>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="nomb">Nombre:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre">
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="leg">Legajo:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="legajo" placeholder="Legajo">
+                    </div>
+                </div>
+
+                <label class="control-label col-sm-2" for="pwd">Password:</label>
+                <div class="col-sm-10">          
+                    <input type="password" class="form-control" id="password" placeholder="Password" name="pwd">
+                </div>
+
+                <label class="control-label col-sm-2" for="tip">Tipo:</label>
+                <select class="form-control" id="tipo">
+                    <option value="0" selected="selected">Administrador</option>
+                    <option value="1">Usuario</option>
+                </select>
+
+                <label class="control-label col-sm-2" for="tur">Turno:</label>
+                <select class="form-control" id="turno">
+                    <option value="1" selected="selected">Mañana</option>
+                    <option value="2">Tarde</option>
+                    <option value="3">Noche</option>
+                </select>
+
+                <label class="control-label col-sm-2" for="hab">Estado:</label>
+                <select class="form-control" id="estado">
+                    <option value="1" selected="selected">Habilitado</option>
+                    <option value="2">Suspendido</option>
+                </select>
+                <br>
+                <div class="form-group">        
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-success" onclick="guardarUsuario()">Guardar</button>
+                        <!--<button type="button" class="btn btn-success" onclick="traerUsuarios()">Traer</button>-->
+                    </div>
+                </div>
+                
+            </div> <!--Fin Alta -->  
+
+            <!-- MOSTRAR USUARIOS -->
+            <div id="tabus" class="collapse"> 
+                <div id="modtur" class="collapse"> 
+                    <h2>Modificar turno</h2> 
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="leg">Legajo:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="legajoMod" placeholder="Legajo" disabled>
+                        </div>
+                    </div>
+                    <label class="control-label col-sm-2" for="tur">Turno:</label>
+                    <select class="form-control" id="turnoMod">
+                        <option value="1" selected="selected">Mañana</option>
+                        <option value="2">Tarde</option>
+                        <option value="3">Noche</option>
+                    </select>
+                    <br>
+                    <div class="form-group">        
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#modtur" onclick="modificarUsuario()">Modificar Turno</button>
+                    </div>
+                </div>
+                </div>
+                <h2>Tabla de usuarios</h2>         
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Legajo</th>
+                        <th>Tipo</th>
+                        <th>Turno</th>
+                        <th>Estado</th>
+                        <th>Accion</th>
+                    </tr>
+                    </thead>
+                    <tbody id="traerUs">
+                    
+                    </tbody>
+                </table>
+            </div><!--Fin mostrar usuarios-->
+
+            <!-- FORMULARIOS DE AUTO-->
+            <div id="altau" class="collapse">
+            <!-- ALTA AUTO-->
+                <h1>Alta de auto</h1>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="nomb">Marca:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="marca" placeholder="Marca">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="leg">Patente:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="patente" placeholder="Patente">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="leg">Color:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="color" placeholder="Color">
+                    </div>
+                </div>
+
+                <label class="control-label col-sm-2" for="tur">Piso:</label>
+                <select class="form-control" id="piso" onclick="traerLugar()">
+                    <option value="0" >Ninguno</option>
+                </select>
+
+                <label class="control-label col-sm-2" for="tur">Lugar:</label>
+                <select class="form-control" id="lugar" >
+                    <option value="0" selected="selected">Ninguno</option>
+                </select>
+
+                <br>
+                <div class="form-group">        
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-success" onclick="guardarAuto()">Guardar Auto</button>
+                        <!--<button type="button" class="btn btn-success" onclick="traerUsuarios()">Traer</button>-->
+                    </div>
+                </div>
+
+            </div><!--Fin Alta Auto-->
+            
+            <div id="tabEst" class="collapse">
+             <h2>Estacionamiento </h2>         
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Piso</th>
+                        <th>Lugar</th>
+                        <th>Ocupado</th>
+                        <th>Discapacitado</th>
+                    </tr>
+                    </thead>
+                    <tbody id="traerEs">
+                    
+                    </tbody>
+                </table>
             </div>
-        </footer>
+
+            <div id="tabAut" class="collapse">
+             <h2>Autos ingresados</h2>         
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Lugar</th>
+                        <th>Patente</th>
+                        <th>Marca</th>
+                        <th>Color</th>
+                        <th>Ingreso</th>
+                    </tr>
+                    </thead>
+                    <tbody id="traerAut">
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div> 
+
+
     </body>
 </html>

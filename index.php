@@ -86,7 +86,7 @@ session_start();
 //4.- INVOCAMOS AL METODO SOAP, PASANDOLE EL PARAMETRO DE ENTRADA
         
 		$usuario = $client->call('Login', array($nombre,$password));
-        var_dump($usuario);   
+        //var_dump($usuario);   
 //5.- CHECKEAMOS POSIBLES ERRORES AL INVOCAR AL METODO DEL WS 
 
         if ($client->fault) {
@@ -101,9 +101,9 @@ session_start();
 				echo '<h2>ERROR EN EL CLIENTE:</h2><pre>' . $err . '</pre>';
 			} 
 			else {//MOSTRAMOS EL RESULTADO DEL METODO DEL WS.
-				echo '<h2>Resultado Suma</h2>';
+				
 				//echo '<pre>' . print_r($usuario) . '</pre>';
-                if($usuario["nombre"]==$nombre && $usuario["password"]==$password){
+                if($usuario["nombre"]==$nombre && $usuario["password"]==$password && $usuario["estado"] !== 2){
                     echo "ingreso a la session";
                     $_SESSION["usuario"]->nombre = $usuario["nombre"];
                     $_SESSION["usuario"]->legajo = $usuario["legajo"];
@@ -112,7 +112,10 @@ session_start();
                     $_SESSION["turno"]->password = $usuario["turno"];
                     $_SESSION["estado"]->password = $usuario["estado"];
                     header('Location: home.php');
+                }else{
+                    echo '<h2>El usuario esta suspendido o no existe</h2>';
                 }
+                
 			}
 		}
 	}
