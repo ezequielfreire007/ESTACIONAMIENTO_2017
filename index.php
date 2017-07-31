@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "clases/Fichada.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -111,6 +112,9 @@ session_start();
                     $_SESSION["usuario"]->password = $usuario["password"];
                     $_SESSION["turno"]->password = $usuario["turno"];
                     $_SESSION["estado"]->password = $usuario["estado"];
+                    date_default_timezone_set("America/Argentina/Buenos_Aires");
+			        $hora = date("Y-m-d H:i:s");
+                    Fichada::ingreso($usuario["legajo"],$hora);
                     header('Location: home.php');
                 }else{
                     echo '<h2>El usuario esta suspendido o no existe</h2>';

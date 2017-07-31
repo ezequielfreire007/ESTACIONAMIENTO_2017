@@ -386,3 +386,106 @@ function guardarAuto() { //OK
         alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
     });
 }
+
+function traerAutos() { //OK
+
+    $.ajax({
+        type:'get',
+        url:hostapi+'/apiRest.php/traertodosautos',
+        dataType:'JSON',
+        contentType:false,
+        processData:false,
+        async:true
+    })
+    .done(function(data){ 
+        //alert(data);
+        
+        tabla="";
+        $.each(data, function(i, item) {
+            
+            tabla+="<tr>";
+                tabla+="<td>"+item.lugar+"</td>";
+                tabla+="<td id='leg'>"+item.patente+"</td>";
+                tabla+="<td id='leg'>"+item.marca+"</td>";
+                tabla+="<td id='leg'>"+item.color+"</td>";
+                tabla+="<td id='leg'>"+item.hora+"</td>";
+            tabla+="<tr>";
+        });
+        $('#traerAut').html(tabla);
+        //traerLugar();
+        //traerUsuarios();
+    })
+    .fail(function(jqXHR,textStatus,errorThrown){
+        alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
+    });
+}
+
+function traerAuto($Patente) { //OK
+
+    $.ajax({
+        type:'delete',
+        url:hostapi+'/apiRest.php/traerunauto/'+patente,
+        dataType:'JSON',
+        contentType:false,
+        processData:false,
+        async:true
+    })
+    .done(function(respuesta){ 
+        alert(respuesta.Mensaje);
+    })
+    .fail(function(jqXHR,textStatus,errorThrown){
+        alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
+    });
+}
+
+function retirarAuto() { //OK
+
+    var patente = $("#patenteMod").val();
+
+    $.ajax({
+        type:'delete',
+        url:hostapi+'/apiRest.php/eliminarauto/'+patente,
+        dataType:'JSON',
+        contentType:false,
+        processData:false,
+        async:true
+    })
+    .done(function(respuesta){ 
+        alert(respuesta.Mensaje);
+        traerAutos();
+    })
+    .fail(function(jqXHR,textStatus,errorThrown){
+        alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
+    });
+}
+
+function traerFichadas() { //OK
+
+    $.ajax({
+        type:'get',
+        url:hostapi+'/apiRest.php/traerFichadas',
+        dataType:'JSON',
+        contentType:false,
+        processData:false,
+        async:true
+    })
+    .done(function(data){ 
+        //alert(data);
+        
+        tabla="";
+        $.each(data, function(i, item) {
+            
+            tabla+="<tr>";
+                tabla+="<td>"+item.legajo+"</td>";
+                tabla+="<td>"+item.ingreso+"</td>";
+                tabla+="<td>"+item.salida+"</td>";
+            tabla+="<tr>";
+        });
+        $('#traeFich').html(tabla);
+        //traerLugar();
+        //traerUsuarios();
+    })
+    .fail(function(jqXHR,textStatus,errorThrown){
+        alert(jqXHR.responseText + "\n" + textStatus + "\n" + errorThrown);
+    });
+}

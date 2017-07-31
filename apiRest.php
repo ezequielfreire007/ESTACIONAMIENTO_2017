@@ -4,6 +4,7 @@ require_once "vendor/autoload.php";
 require_once "clases/Auto.php";
 require_once "clases/Usuario.php";
 require_once "clases/Estacionamiento.php";
+require_once "clases/Fichada.php";
 
 date_default_timezone_set("America/Argentina/Buenos_Aires");
 
@@ -70,9 +71,10 @@ $app->post('/insertarauto',function() use($app)
 		$hora = date("Y-m-d H:i:s");
         $autoAgregado=Auto::insertarAuto($lugar,$patente,$marca,$color,$hora);
 
-        if(!$autoAgregado && Estacionamiento::modificarOcupado($lugar,1)){
+        if(!$autoAgregado){
             $json = array("Error" => "No se agrego el auto");
         }else{
+			Estacionamiento::modificarOcupado($lugar,1);
             $json = array("Mensaje" => "Se agrego un auto");
         }
                   
@@ -109,10 +111,12 @@ $app->put('/modificarauto/:marca/:patente/:color',function($marca,$patente,$colo
 /// DELETE AUTO ////
 $app->delete('/eliminarauto/:patente',function($patente) use($app)
 	{
-		if(!Auto::eliminarAuto($patente)){
-            $json = array("Error" => "No se modifico el auto");
+		$auto = Auto::TraerUnAuto($patente);
+		if(!Auto::eliminarAuto($patente) ){
+            $json = array("Error" => "No se elimino el auto");
         }else{
-            $json = array("Mensaje" => "Se modifico un auto");
+			Estacionamiento::modificarOcupado($auto->getIdLugar(),0);
+            $json = array("Mensaje" => "Se elimino un auto");
         }
     
 		$app->response->headers->set("Content-type", "application/json");
@@ -206,6 +210,15 @@ $app->put('/modificaEstado/:legajo/:turno',function($legajo,$estado) use($app)
 		$app->response->body(json_encode($json));
 	});
 
+/////////////////////////// FICHADAS ////////////////////////////////////
+/// GET TRAER FICHADAS ////
+$app->get('/traerFichadas',function() use($app)
+	{
+		$json = Fichada::TraerFichadas();
+		$app->response->headers->set("Content-type", "application/json");
+		$app->response->status(200);
+		$app->response->body(json_encode($json));
+	});
 
 //****
 $app->run();

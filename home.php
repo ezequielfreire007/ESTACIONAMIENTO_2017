@@ -56,14 +56,14 @@
                         echo "<button type='button' class='btn btn-info' data-toggle='collapse' data-target='#emp'>Operaciones de playa</button>";
                         echo "<div class='btn-group'>";
                             echo "<div id='adm' class='collapse'>";
-                                echo "<button class='btn btn-primary navbar-btn'>Dias y Horarios</button>";
+                                echo "<button class='btn btn-primary navbar-btn'data-toggle='collapse' data-target='#fich'onclick='traerFichadas()'>Fichadas</button>";
                                 echo "<button class='btn btn-primary navbar-btn'>Cantidad de operaciones</button>";
                                 echo "<button class='btn btn-primary navbar-btn' data-toggle='collapse' data-target='#altus'>Alta Usuario</button>";
                                 echo "<button type='button' class='btn btn-primary navbar-btn' data-toggle='collapse' data-target='#tabus' onclick='traerUsuarios()'>Mostrar Usuarios</button>";//
                             echo "</div>";
                             echo "<div id='emp' class='collapse'>";
                                 echo "<button class='btn btn-success navbar-btn' data-toggle='collapse' data-target='#altau'onclick='traerPisos()'>Alta Auto</button>";
-                                echo "<button class='btn btn-success navbar-btn'>Retirar Auto</button>";
+                                echo "<button class='btn btn-success navbar-btn'data-toggle='collapse' data-target='#retAut'>Retirar Auto</button>";
                                 echo "<button class='btn btn-success navbar-btn' data-toggle='collapse' data-target='#tabEst'onclick='traerEstacionamiento()'>Estacionamiento</button>";
                                 echo "<button type='button' class='btn btn-success' data-toggle='collapse' data-target='#tabAut'onclick='traerAutos()'>Traer Autos</button>";
                             echo "</div>";
@@ -74,7 +74,7 @@
                         echo "<div class='btn-group'>";
                             echo "<div id='emp' class='collapse'>";
                                 echo "<button class='btn btn-success navbar-btn' data-toggle='collapse' data-target='#altau' onclick='traerPisos()'>Alta Auto</button>";
-                                echo "<button class='btn btn-success navbar-btn'>Retirar Auto</button>";
+                                echo "<button class='btn btn-success navbar-btn'data-toggle='collapse' data-target='#retAut'>Retirar Auto</button>";
                                 echo "<button class='btn btn-success navbar-btn' data-toggle='collapse' data-target='#tabEst'onclick='traerEstacionamiento()'>Estacionamiento</button>";
                                 echo "<button type='button' class='btn btn-success' data-toggle='collapse' data-target='#tabAut'onclick='traerAutos()'>Traer Autos</button>";
                             echo "</div>";
@@ -87,7 +87,7 @@
 
         <!-- FORMULARIOS DE USUARIO -->
         <div class="container">
-        <!-- ALTA USUARIO -->
+             <!-- ALTA USUARIO -->
             <div id="altus" class="collapse"> 
                 <h1>Alta de usuario</h1>
                 <div class="form-group">
@@ -155,10 +155,10 @@
                     </select>
                     <br>
                     <div class="form-group">        
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#modtur" onclick="modificarUsuario()">Modificar Turno</button>
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#modtur" onclick="modificarUsuario()">Modificar Turno</button>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <h2>Tabla de usuarios</h2>         
                 <table class="table table-hover">
@@ -177,6 +177,23 @@
                     </tbody>
                 </table>
             </div><!--Fin mostrar usuarios-->
+
+            <!--FICHADAS-->
+            <div id="fich" class="collapse">
+                <h2>Fichadas</h2>         
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Legajo</th>
+                        <th>Ingreso</th>
+                        <th>Salida</th>
+                    </tr>
+                    </thead>
+                    <tbody id="traeFich">
+                    
+                    </tbody>
+                </table>
+            </div>
 
             <!-- FORMULARIOS DE AUTO-->
             <div id="altau" class="collapse">
@@ -240,8 +257,25 @@
                 </table>
             </div>
 
+            <!-- Autos ingresados y retirar auto-->
             <div id="tabAut" class="collapse">
-             <h2>Autos ingresados</h2>         
+                <div id="retAut" class="collapse"> 
+                    <h2>Modificar turno</h2> 
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="leg">Patente:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="patenteMod" placeholder="Patente" >
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">        
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#retAut" onclick="retirarAuto()">Retirar auto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Autos ingresados</h2>         
                 <table class="table table-hover">
                     <thead>
                     <tr>

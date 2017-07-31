@@ -109,5 +109,5 @@ class Estacionamiento
 }
 //test
 //var_dump(Estacionamiento::traerPisos());
-Estacionamiento::modificarOcupado(9,1);
+//Estacionamiento::modificarOcupado(9,0);
 ?>

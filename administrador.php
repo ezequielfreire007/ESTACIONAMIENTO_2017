@@ -1,6 +1,6 @@
 <?php
     session_start();
-
+    require_once "clases/Fichada.php";
     $queHago = isset($_POST["queHago"]) ? $_POST["queHago"]:NULL;
     $res = "bad";
 
@@ -22,6 +22,9 @@
             
             break;
         case "2":
+            date_default_timezone_set("America/Argentina/Buenos_Aires");
+			$hora = date("Y-m-d H:i:s");
+            Fichada::salida($_SESSION["usuario"]->legajo,$hora);
             session_destroy();
             $res = "ok";
             break;

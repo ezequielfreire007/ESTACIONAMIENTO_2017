@@ -1,6 +1,7 @@
 <?php
 
 require_once "AccesoDatos.php";
+
 date_default_timezone_set("America/Argentina/Buenos_Aires");
 
 class Auto
@@ -119,7 +120,7 @@ class Auto
     public static function TraerTodosAutos()
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("select lugar,marca,patente,color from autos");
+		$consulta =$objetoAccesoDato->RetornarConsulta("select lugar,patente,marca,color,hora from autos");
 		$consulta->execute();			
 		return $consulta->fetchAll(PDO::FETCH_CLASS, "Auto");		
 	}
